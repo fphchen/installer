@@ -102,7 +102,7 @@ read -n1 -rep "${CAT} Would you like to install the packages? (y/n)" PKGS
 if [[ $PKGS =~ ^[Yy]$ ]]; then
     awesomewm_pkgs="awesome-git feh picom polybar python-pywal rofi sxiv xdotool zscroll"
     app_pkgs="firefox gimp gparted kitty libreoffice openvpn pavucontrol signal-desktop vlc zathura zathura-pdf-mupdf zathura-ps"
-    util_pkgs="brightnessctl cifs-utils dunst fzf gvfs-nfs gvfs-smb networkmanager-openvpn neofetch nfs-utils pacman-contrib python-pip rust-script slurp smbclient trash-cli unzip usbutils"
+    util_pkgs="brightnessctl cifs-utils dunst fzf gvfs-nfs gvfs-smb networkmanager-openvpn neofetch nfs-utils pacman-contrib python-pip rust-script slurp smbclient trash-cli unzip usbutils yt-dlp"
     font_pkgs="noto-fonts-cjk ttf-firacode-nerd"
     theme_pkgs=""
     extra_pkgs="brave-bin joplin joplin-desktop spotify"
