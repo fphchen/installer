@@ -272,7 +272,7 @@ fi
 printf "${GREEN} Autoinstaller completed.\n"
 
 ### Enable SDDM Autologin ###
-read -n1 -rep "${CAT} Would you like to enable SDDM autologin? (y/n)" SDDM
+read -n1 -rep "${CAT} OPTIONAL - Would you like to enable SDDM autologin? (y/n)" SDDM
 if [[ $SDDM =~ ^[Yy]$ ]]; then
     sudo mkdir -p /etc/sddm.conf.d
     LOC="/etc/sddm.conf.d/autologin.conf"
