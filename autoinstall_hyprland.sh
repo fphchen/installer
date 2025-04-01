@@ -269,6 +269,8 @@ else
     printf "${YELLOW} No SDDM packages installed. Moving on!\n"
 fi
 
+printf "${GREEN} Autoinstaller completed.\n"
+
 ### Enable SDDM Autologin ###
 read -n1 -rep "${CAT} Would you like to enable SDDM autologin? (y/n)" SDDM
 if [[ $SDDM =~ ^[Yy]$ ]]; then
@@ -283,4 +285,3 @@ else
     printf "${YELLOW} SDDM Autologin NOT enabled. Moving on!\n"
 fi
 
-printf "${GREEN} Autoinstaller completed.\n"
