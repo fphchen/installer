@@ -139,6 +139,7 @@ if [[ $GITCFG =~ ^[Yy]$ ]]; then
     mkdir -p ~/Documents/git/fphchen/
     cd ~/Documents/git/fphchen
     git clone https://github.com/fphchen/dotfiles.git
+    git clone https://github.com/fphchen/installer.git
     git clone https://github.com/fphchen/wallpapers.git
     printf "${YELLOW} Symbolic linking config files...\n"
     ln -s ~/Documents/git/fphchen/dotfiles/configs/dunst ~/.config/ 2>&1 | tee -a $LOG
