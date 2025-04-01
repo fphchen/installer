@@ -105,7 +105,7 @@ if [[ $PKGS =~ ^[Yy]$ ]]; then
     util_pkgs="brightnessctl cifs-utils dunst fzf gst-libav gvfs-nfs gvfs-smb networkmanager networkmanager-openvpn neofetch nfs-utils pacman-contrib python-pip rust-script slurp smbclient trash-cli unzip usbutilsi yt-dlp"
     font_pkgs="noto-fonts-cjk ttf-firacode-nerd"
     theme_pkgs=""
-    extra_pkgs="brave-bin joplin joplin-desktop spotify"
+    extra_pkgs="brave-bin joplin spotify"
     if ! $aur -S --noconfirm --needed $hyprland_pkgs $app_pkgs $util_pkgs $font_pkgs $theme_pkgs $extra_pkgs 2>&1 | tee -a $LOG; then
         print_error " Failed to install additional packages - please check ${LOG}\n"
         exit 1
