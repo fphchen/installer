@@ -144,8 +144,10 @@ if [[ $GITCFG =~ ^[Yy]$ ]]; then
     ln -s ~/Documents/git/fphchen/dotfiles/configs/dunst ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/hypr ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/kitty ~/.config/ 2>&1 | tee -a $LOG
+    ln -s ~/Documents/git/fphchen/dotfiles/configs/lf ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/neofetch ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/swaylock ~/.config/ 2>&1 | tee -a $LOG
+    ln -s ~/Documents/git/fphchen/dotfiles/configs/sddm ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/swww ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/waybar ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/wofi ~/.config/ 2>&1 | tee -a $LOG
