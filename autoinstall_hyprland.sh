@@ -198,38 +198,6 @@ else
     printf "${YELLOW} No ACPI packages installed. Moving on!\n"
 fi
 
-read -n1 -rep "${CAT} OPTIONAL - Would you like to install SDDM Login Manager? (y/n)" LOGINMAN
-if [[ $LOGINMAN =~ ^[Yy]$ ]]; then
-    printf "${GREEN} Removing existing LightDM packages...\n"
-    $aur -Rns --noconfirm lightdm lightdm-gtk-greeter 2>&1 | tee -a $LOG
-
-    printf "${GREEN} Installing SDDM packages...\n"
-    loginman_pkgs="sddm qt5-graphicaleffects qt5-quickcontrols qt5-quickcontrols2 qt5-svg qt5-multimedia gst-libav gst-plugins-good phonon-qt5-gstreamer"
-    if ! $aur -S --noconfirm --needed $loginman_pkgs 2>&1 | tee -a $LOG; then
-        print_error "Failed to install SDDM packages - please check ${LOG}\n"    
-    else    
-        printf " Activating SDDM services...\n"
-        sudo systemctl enable sddm
-        sleep 1
-    fi
-else
-    printf "${YELLOW} No SDDM packages installed. Moving on!\n"
-fi
-
-### Enable SDDM Autologin ###
-read -n1 -rep "${CAT} Would you like to enable SDDM autologin? (y/n)" SDDM
-if [[ $SDDM =~ ^[Yy]$ ]]; then
-    sudo mkdir -p /etc/sddm.conf.d
-    LOC="/etc/sddm.conf.d/autologin.conf"
-    echo -e "The following has been added to $LOC."
-    echo -e "[Autologin]\nUser=$(whoami)\nSession=hyprland" | sudo tee -a $LOC
-    echo -e "Restarting SDDM service...\n"
-    sudo systemctl reload-or-restart sddm
-    sleep 1
-else
-    printf "${YELLOW} SDDM Autologin NOT enabled. Moving on!\n"
-fi
-
 # SUNSHINE
 read -n1 -rep "${CAT} OPTIONAL - Would you like to install Sunshine RD/Game streaming packages? (y/n)" SUNSHINE
 if [[ $SUNSHINE =~ ^[Yy]$ ]]; then
@@ -280,6 +248,39 @@ if [[ $ASUSFINGERPRINT =~ ^[Yy]$ ]]; then
     fi
 else
     printf "${YELLOW} No Asus packages installed. Moving on!\n"
+fi
+
+### SDDM Packages ###
+read -n1 -rep "${CAT} OPTIONAL - Would you like to install SDDM Login Manager? (y/n)" LOGINMAN
+if [[ $LOGINMAN =~ ^[Yy]$ ]]; then
+    printf "${GREEN} Removing existing LightDM packages...\n"
+    $aur -Rns --noconfirm lightdm lightdm-gtk-greeter 2>&1 | tee -a $LOG
+
+    printf "${GREEN} Installing SDDM packages...\n"
+    loginman_pkgs="sddm qt5-graphicaleffects qt5-quickcontrols qt5-quickcontrols2 qt5-svg qt5-multimedia gst-libav gst-plugins-good phonon-qt5-gstreamer"
+    if ! $aur -S --noconfirm --needed $loginman_pkgs 2>&1 | tee -a $LOG; then
+        print_error "Failed to install SDDM packages - please check ${LOG}\n"    
+    else    
+        printf " Activating SDDM services...\n"
+        sudo systemctl enable sddm
+        sleep 1
+    fi
+else
+    printf "${YELLOW} No SDDM packages installed. Moving on!\n"
+fi
+
+### Enable SDDM Autologin ###
+read -n1 -rep "${CAT} Would you like to enable SDDM autologin? (y/n)" SDDM
+if [[ $SDDM =~ ^[Yy]$ ]]; then
+    sudo mkdir -p /etc/sddm.conf.d
+    LOC="/etc/sddm.conf.d/autologin.conf"
+    echo -e "The following has been added to $LOC."
+    echo -e "[Autologin]\nUser=$(whoami)\nSession=hyprland" | sudo tee -a $LOC
+    #echo -e "Restarting SDDM service...\n"
+    #sudo systemctl reload-or-restart sddm
+    sleep 1
+else
+    printf "${YELLOW} SDDM Autologin NOT enabled. Moving on!\n"
 fi
 
 printf "${GREEN} Autoinstaller completed.\n"
