@@ -42,9 +42,8 @@ else
     read -n1 -rep "${CAT} Would you like to install git and dependencies? (y/n)" GIT
     if [[ $GIT =~ ^[Yy]$ ]]; then
         printf "${GREEN} Installing git and dependencies.\n"
-        sudo pacman -S --noconfirm --needed git base-devel rustup
+        sudo pacman -S --noconfirm --needed git base-devel
         sleep 3
-        rustup default stable
     else
         printf "${RED} git and dependencies are needed for AUR Helper installation. Goodbye!\n"
         exit
@@ -66,9 +65,9 @@ else
     else
         printf "${YELLOW} - yay NOT found.\n"
         read -n4 -rep "${CAT} paru/yay is needed, would you like to install paru or yay? " AUR
+        mkdir -p ~/Documents/git
+        cd ~/Documents/git
         if [[ $AUR =~ paru ]]; then
-            mkdir -p ~/Documents/git
-            cd ~/Documents/git
             git clone https://aur.archlinux.org/paru.git
             cd paru
             makepkg -si --noconfirm --needed 2>&1 | tee -a $LOG
@@ -100,7 +99,7 @@ fi
 ### Install packages ####
 read -n1 -rep "${CAT} Would you like to install the packages? (y/n)" PKGS
 if [[ $PKGS =~ ^[Yy]$ ]]; then
-    dms_pkgs="cava kimageformats cups-pk-helper power-profiles-daemon grim polkit polkit-kde-agent swayidle swayimg waybar wl-clipboard wofi xdg-desktop-portal-hyprland xorg-xhost xorg-xwayland swww swaylock wev wlr-randr"
+    dms_pkgs="cava kimageformats cups-pk-helper power-profiles-daemon grim polkit swayimg wofi xorg-xhost xorg-xwayland swww swaylock wev wlr-randr"
     app_pkgs="gimp libreoffice signal-desktop vlc vim zathura zathura-pdf-mupdf zathura-ps"
     util_pkgs="brightnessctl cifs-utils fzf gst-libav gvfs-nfs gvfs-smb lf networkmanager neofetch nfs-utils pacman-contrib python-pip rust rust-script slurp smbclient trash-cli unzip usbutilsi yt-dlp"
     font_pkgs=""
