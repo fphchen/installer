@@ -99,7 +99,7 @@ fi
 ### Install packages ####
 read -n1 -rep "${CAT} Would you like to install the packages? (y/n)" PKGS
 if [[ $PKGS =~ ^[Yy]$ ]]; then
-    dms_pkgs="cava kimageformats cups-pk-helper power-profiles-daemon polkit swayimg wofi xorg-xhost xorg-xwayland swww swaylock wev wlr-randr"
+    dms_pkgs="cava kimageformats cups-pk-helper power-profiles-daemon swayimg wev"
     app_pkgs="vlc vim zathura zathura-pdf-mupdf zathura-ps"
     util_pkgs="brightnessctl cifs-utils fzf grim gst-libav gvfs-nfs gvfs-smb lf networkmanager neofetch nfs-utils pacman-contrib python-pip rust-script slurp smbclient trash-cli unzip usbutilsi yt-dlp"
     font_pkgs=""
