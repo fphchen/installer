@@ -99,18 +99,16 @@ fi
 ### Install packages ####
 read -n1 -rep "${CAT} Would you like to install the packages? (y/n)" PKGS
 if [[ $PKGS =~ ^[Yy]$ ]]; then
-    dms_pkgs="cava kimageformats cups-pk-helper power-profiles-daemon grim polkit swayimg wofi xorg-xhost xorg-xwayland swww swaylock wev wlr-randr"
-    app_pkgs="gimp libreoffice signal-desktop vlc vim zathura zathura-pdf-mupdf zathura-ps"
-    util_pkgs="brightnessctl cifs-utils fzf gst-libav gvfs-nfs gvfs-smb lf networkmanager neofetch nfs-utils pacman-contrib python-pip rust rust-script slurp smbclient trash-cli unzip usbutilsi yt-dlp"
+    dms_pkgs="cava kimageformats cups-pk-helper power-profiles-daemon polkit swayimg wofi xorg-xhost xorg-xwayland swww swaylock wev wlr-randr"
+    app_pkgs="vlc vim zathura zathura-pdf-mupdf zathura-ps"
+    util_pkgs="brightnessctl cifs-utils fzf grim gst-libav gvfs-nfs gvfs-smb lf networkmanager neofetch nfs-utils pacman-contrib python-pip rust-script slurp smbclient trash-cli unzip usbutilsi yt-dlp"
     font_pkgs=""
     theme_pkgs=""
-    extra_pkgs="brave-bin joplin spotify-launcher"
+    extra_pkgs="brave-bin gimp joplin libreoffice signal-desktop spotify-launcher"
     if ! $aur -S --noconfirm --needed $dms_pkgs $app_pkgs $util_pkgs $font_pkgs $theme_pkgs $extra_pkgs 2>&1 | tee -a $LOG; then
         print_error " Failed to install additional packages - please check ${LOG}\n"
         exit 1
     fi
-    printf "${YELLOW} Removing hyprland xdg-desktop-portal conflicts.\n"
-    $aur -Rnsdd --noconfirm xdg-desktop-portal-kde 2>&1 | tee -a $LOG
     print_success " All necessary packages installed successfully.\n"
 else
     printf "${YELLOW} No packages installed. Moving on!\n"
@@ -257,7 +255,7 @@ if [[ $SDDM =~ ^[Yy]$ ]]; then
     sudo mkdir -p /etc/sddm.conf.d
     LOC="/etc/sddm.conf.d/autologin.conf"
     echo -e "The following has been added to $LOC."
-    echo -e "[Autologin]\nUser=$(whoami)\nSession=hyprland" | sudo tee -a $LOC
+    echo -e "[Autologin]\nUser=$(whoami)\nSession=niri" | sudo tee -a $LOC
     #echo -e "Restarting SDDM service...\n"
     #sudo systemctl reload-or-restart sddm
     sleep 1
