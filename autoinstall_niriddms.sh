@@ -101,7 +101,7 @@ read -n1 -rep "${CAT} Would you like to install the packages? (y/n)" PKGS
 if [[ $PKGS =~ ^[Yy]$ ]]; then
     dms_pkgs="cava kimageformats cups-pk-helper power-profiles-daemon swayimg wev"
     app_pkgs="vlc zathura zathura-pdf-mupdf zathura-ps"
-    util_pkgs="brightnessctl grim gvfs-nfs lf neofetch python-pip rust-script slurp usbutils yt-dlp"
+    util_pkgs="brightnessctl grim gvfs-nfs lf slurp usbutils yt-dlp"
     font_pkgs=""
     theme_pkgs=""
     extra_pkgs="brave-bin gimp joplin libreoffice signal-desktop spotify-launcher"
@@ -132,23 +132,35 @@ fi
 read -n1 -rep "${CAT} Would you like to git clone and symbolic link config files? (y/n)" GITCFG
 if [[ $GITCFG =~ ^[Yy]$ ]]; then
     printf "${YELLOW} Git cloning GitHub files...\n"
-    mkdir -p ~/.config ~/Desktop ~/Documents ~/Downloads ~/Pictures ~/Videos ~/Temp
+    mkdir -p~/Temp
     mkdir -p ~/Documents/git/fphchen/
     cd ~/Documents/git/fphchen
     git clone https://github.com/fphchen/dotfiles.git
     git clone https://github.com/fphchen/installer.git
     git clone https://github.com/fphchen/wallpapers.git
+    printf "${YELLOW} Removing existing conflict config files...\n"
+    rm -rf ~/.config/alacritty 2>&1 | tee -a $LOG
+    rm -rf ~/.config/DankMaterialShell 2>&1 | tee -a $LOG
+    rm -rf ~/.config/dunst 2>&1 | tee -a $LOG
+    rm -rf ~/.config/kitty 2>&1 | tee -a $LOG
+    rm -rf ~/.config/lf 2>&1 | tee -a $LOG
+    rm -rf ~/.config/neofetch 2>&1 | tee -a $LOG
+    rm -rf ~/.config/niri 2>&1 | tee -a $LOG
+    rm -rf ~/.config/zathura 2>&1 | tee -a $LOG
+    rm ~/.bashrc
+    rm ~/.zshrc
+    rm ~/.vimrc
     printf "${YELLOW} Symbolic linking config files...\n"
+    ln -s ~/Documents/git/fphchen/dotfiles/configs/alacritty ~/.config/ 2>&1 | tee -a $LOG
+    ln -s ~/Documents/git/fphchen/dotfiles/configs/DankMaterialShell ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/dunst ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/kitty ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/lf ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/neofetch ~/.config/ 2>&1 | tee -a $LOG
-    ln -s ~/Documents/git/fphchen/dotfiles/configs/swaylock ~/.config/ 2>&1 | tee -a $LOG
-    ln -s ~/Documents/git/fphchen/dotfiles/configs/swww ~/.config/ 2>&1 | tee -a $LOG
-    ln -s ~/Documents/git/fphchen/dotfiles/configs/wofi ~/.config/ 2>&1 | tee -a $LOG
+    ln -s ~/Documents/git/fphchen/dotfiles/configs/niri ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/zathura ~/.config/ 2>&1 | tee -a $LOG
-    rm ~/.bashrc
     ln -s ~/Documents/git/fphchen/dotfiles/configs/.bashrc ~/ 2>&1 | tee -a $LOG
+    ln -s ~/Documents/git/fphchen/dotfiles/configs/.zshrc ~/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/.vimrc ~/ 2>&1 | tee -a $LOG
 
     ### Symbolic linking Pipewire upmix for 7.1 Surround Sound ###
@@ -166,8 +178,8 @@ if [[ $ACPI =~ ^[Yy]$ ]]; then
     printf "${GREEN} Installing ACPI packages...\n"
     acpi_pkgs="acpid"
     if ! $aur -S --noconfirm --needed $acpi_pkgs 2>&1 | tee -a $LOG; then
-        print_error "Failed to install ACPI packages - please check ${LOG}\n"    
-    else    
+        print_error "Failed to install ACPI packages - please check ${LOG}\n"
+    else
         printf " Activating ACPI services...\n"
         sudo systemctl enable --now acpid.service
         sleep 1
@@ -182,8 +194,8 @@ if [[ $SUNSHINE =~ ^[Yy]$ ]]; then
     printf "${GREEN} Installing Sunshine packages...\n"
     rds_pkgs="sunshine"
     if ! $aur -S --noconfirm --needed $rds_pkgs 2>&1 | tee -a $LOG; then
-       	print_error "Failed to install remote desktop streaming packages - please check ${LOG} \n"    
-    else    
+       	print_error "Failed to install remote desktop streaming packages - please check ${LOG} \n"
+    else
         printf " Activating avahi-daemon services for Sunshine...\n"
         sudo systemctl enable --now avahi-daemon
         sleep 1
@@ -198,8 +210,8 @@ if [[ $ASUS =~ ^[Yy]$ ]]; then
     printf "${GREEN} Installing Asus ROG packages...\n"
     asus_pkgs="asusctl rog-control-center supergfxctl"
     if ! $aur -S --noconfirm --needed $asus_pkgs 2>&1 | tee -a $LOG; then
-        print_error "Failed to install Asus ROG packages - please check ${LOG}\n"    
-    else    
+        print_error "Failed to install Asus ROG packages - please check ${LOG}\n"
+    else
         printf " Activating Asus services...\n"
         sudo systemctl enable --now asusd.service
         sleep 1
@@ -218,8 +230,8 @@ if [[ $ASUSFINGERPRINT =~ ^[Yy]$ ]]; then
     printf "${GREEN} Installing Asus ROG G14 fingerprint packages...\n"
     asusfp_pkgs="libfprint-goodix-521d fprintd"
     if ! $aur -S --noconfirm --needed $asusfp_pkgs 2>&1 | tee -a $LOG; then
-        print_error "Failed to install Asus ROG G14 fingerprint packages - please check ${LOG}\n"    
-    else    
+        print_error "Failed to install Asus ROG G14 fingerprint packages - please check ${LOG}\n"
+    else
         printf " Activating Asus ROG G14 fingerprint services...\n"
         sudo systemctl enable --now asusd.service
         sleep 1
@@ -237,8 +249,8 @@ if [[ $LOGINMAN =~ ^[Yy]$ ]]; then
     printf "${GREEN} Installing SDDM packages...\n"
     loginman_pkgs="sddm qt5-graphicaleffects qt5-quickcontrols qt5-quickcontrols2 qt5-svg qt5-multimedia gst-libav gst-plugins-good phonon-qt5-gstreamer"
     if ! $aur -S --noconfirm --needed $loginman_pkgs 2>&1 | tee -a $LOG; then
-        print_error "Failed to install SDDM packages - please check ${LOG}\n"    
-    else    
+        print_error "Failed to install SDDM packages - please check ${LOG}\n"
+    else
         printf " Activating SDDM services...\n"
         sudo systemctl enable sddm
         sleep 1
