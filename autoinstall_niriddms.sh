@@ -132,7 +132,7 @@ fi
 read -n1 -rep "${CAT} Would you like to git clone and symbolic link config files? (y/n)" GITCFG
 if [[ $GITCFG =~ ^[Yy]$ ]]; then
     printf "${YELLOW} Git cloning GitHub files...\n"
-    mkdir -p~/Temp
+    mkdir -p ~/Temp
     mkdir -p ~/Documents/git/fphchen/
     cd ~/Documents/git/fphchen
     git clone https://github.com/fphchen/dotfiles.git
