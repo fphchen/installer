@@ -1,2 +1,2 @@
-# DE Autoinstaller Scripts
-DE Autoinstaller Scripts
+# DE/WM Autoinstaller Scripts
+DE/WM Autoinstaller Scripts
