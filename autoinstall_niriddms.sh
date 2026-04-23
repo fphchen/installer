@@ -80,10 +80,10 @@ fi
 ### Install packages ####
 read -n1 -rep "${CAT} Would you like to install the packages? (y/n)" PKGS
 if [[ $PKGS =~ ^[Yy]$ ]]; then
-    dms_pkgs="cava cups-pk-helperk imageformats power-profiles-daemon swayimg wev"
+    dms_pkgs="cava cups-pk-helper kimageformats power-profiles-daemon swayimg wev"
     app_pkgs="vlc zathura zathura-pdf-mupdf zathura-ps"
     util_pkgs="brightnessctl fzf grim gvfs-nfs lf neofetch slurp usbutils yt-dlp"
-    font_pkgs=""
+    font_pkgs="noto-fonts-cjk"
     theme_pkgs=""
     extra_pkgs="brave-bin gimp joplin-desktop libreoffice signal-desktop spotify-launcher"
     if ! $aur -S --noconfirm --needed $dms_pkgs $app_pkgs $util_pkgs $font_pkgs $theme_pkgs $extra_pkgs 2>&1 | tee -a $LOG; then
