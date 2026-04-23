@@ -52,47 +52,28 @@ fi
 
 # Check if yay is installed
 ISparu=/sbin/paru
-ISyay=/sbin/yay
 
 if [ -f "$ISparu" ]; then
     printf "${GREEN} - paru found. Moving on!\n"
     aur=paru
 else
-    printf "${YELLOW} - paru NOT found, trying yay.\n"
-    if [ -f "$ISyay" ]; then
-        printf "${GREEN} - yay found. Moving on!\n"
-        aur=yay
-    else
-        printf "${YELLOW} - yay NOT found.\n"
-        read -n4 -rep "${CAT} paru/yay is needed, would you like to install paru or yay? " AUR
+    printf "${YELLOW} - paru NOT found.\n"
+    read -n4 -rep "${CAT} paru is needed, would you like to install paru? (y/n)" AUR
+    if [[ $AUR =~ ^[Yy]$ ]]; then
         mkdir -p ~/Documents/git
         cd ~/Documents/git
-        if [[ $AUR =~ paru ]]; then
-            git clone https://aur.archlinux.org/paru.git
-            cd paru
-            makepkg -si --noconfirm --needed 2>&1 | tee -a $LOG
-            cd ..
-	        rm -rf paru
-            aur=paru
-            # Perform system update
-            printf "${YELLOW} Upgrading AUR packages to avoid issue.\n"
-            $aur -Syyu --noconfirm 2>&1 | tee -a $LOG
-        else
-            if [[ $AUR =~ yay ]]; then
-                git clone https://aur.archlinux.org/yay.git
-                cd yay
-                makepkg -si --noconfirm --needed 2>&1 | tee -a $LOG
-                cd ..
-                rm -rf yay
-                aur=yay
-                # Perform system update
-                printf "${YELLOW} Upgrading AUR packages to avoid issue.\n"
-                $aur -Syyu --noconfirm 2>&1 | tee -a $LOG
-            else
-                printf "${RED} - yay/paru is required for auto-installation. Goodbye!\n"
-                exit
-            fi
-        fi
+        git clone https://aur.archlinux.org/paru.git
+        cd paru
+        makepkg -si --noconfirm --needed 2>&1 | tee -a $LOG
+        cd ..
+	    rm -rf paru
+        aur=paru
+        # Perform system update
+        printf "${YELLOW} Upgrading AUR packages to avoid issue.\n"
+        $aur -Syyu --noconfirm 2>&1 | tee -a $LOG
+    else
+        printf "${RED} - paru is required for auto-installation. Goodbye!\n"
+        exit
     fi
 fi
 
@@ -101,7 +82,7 @@ read -n1 -rep "${CAT} Would you like to install the packages? (y/n)" PKGS
 if [[ $PKGS =~ ^[Yy]$ ]]; then
     dms_pkgs="cava kimageformats cups-pk-helper power-profiles-daemon swayimg wev"
     app_pkgs="vlc zathura zathura-pdf-mupdf zathura-ps"
-    util_pkgs="brightnessctl grim gvfs-nfs lf slurp usbutils yt-dlp"
+    util_pkgs="brightnessctl fzf grim gvfs-nfs lf neofetch slurp usbutils yt-dlp"
     font_pkgs=""
     theme_pkgs=""
     extra_pkgs="brave-bin gimp joplin libreoffice signal-desktop spotify-launcher"
@@ -135,9 +116,9 @@ if [[ $GITCFG =~ ^[Yy]$ ]]; then
     mkdir -p ~/Temp
     mkdir -p ~/Documents/git/fphchen/
     cd ~/Documents/git/fphchen
-    git clone https://github.com/fphchen/dotfiles.git
-    git clone https://github.com/fphchen/installer.git
-    git clone https://github.com/fphchen/wallpapers.git
+    git clone https://github.com/fphchen/dotfiles.git 2>&1 | tee -a $LOG
+    git clone https://github.com/fphchen/installers.git 2>&1 | tee -a $LOG
+    git clone https://github.com/fphchen/wallpapers.git 2>&1 | tee -a $LOG
     printf "${YELLOW} Removing existing conflict config files...\n"
     rm -rf ~/.config/alacritty 2>&1 | tee -a $LOG
     rm -rf ~/.config/DankMaterialShell 2>&1 | tee -a $LOG
@@ -205,12 +186,12 @@ else
 fi
 
 # Asus ROG G14 packages
-read -n1 -rep "${CAT} OPTIONAL - Would you like to install Asus ROG packages? (y/n)" ASUS
+read -n1 -rep "${CAT} OPTIONAL - Would you like to install Asus ROG laptop packages? (y/n)" ASUS
 if [[ $ASUS =~ ^[Yy]$ ]]; then
-    printf "${GREEN} Installing Asus ROG packages...\n"
+    printf "${GREEN} Installing Asus ROG laptop packages...\n"
     asus_pkgs="asusctl rog-control-center supergfxctl"
     if ! $aur -S --noconfirm --needed $asus_pkgs 2>&1 | tee -a $LOG; then
-        print_error "Failed to install Asus ROG packages - please check ${LOG}\n"
+        print_error "Failed to install Asus ROG laptop packages - please check ${LOG}\n"
     else
         printf " Activating Asus services...\n"
         sudo systemctl enable --now asusd.service
@@ -259,8 +240,6 @@ else
     printf "${YELLOW} No SDDM packages installed. Moving on!\n"
 fi
 
-printf "${GREEN} Autoinstaller completed.\n"
-
 ### Enable SDDM Autologin ###
 read -n1 -rep "${CAT} OPTIONAL - Would you like to enable SDDM autologin? (y/n)" SDDM
 if [[ $SDDM =~ ^[Yy]$ ]]; then
@@ -275,3 +254,4 @@ else
     printf "${YELLOW} SDDM Autologin NOT enabled. Moving on!\n"
 fi
 
+printf "${GREEN} Autoinstaller completed.\n"
