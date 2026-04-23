@@ -147,9 +147,9 @@ if [[ $GITCFG =~ ^[Yy]$ ]]; then
     rm -rf ~/.config/neofetch 2>&1 | tee -a $LOG
     rm -rf ~/.config/niri 2>&1 | tee -a $LOG
     rm -rf ~/.config/zathura 2>&1 | tee -a $LOG
-    rm ~/.bashrc
-    rm ~/.zshrc
-    rm ~/.vimrc
+    rm -rf ~/.bashrc 2>&1 | tee -a $LOG
+    rm -rf ~/.zshrc 2>&1 | tee -a $LOG
+    rm -rf ~/.vimrc 2>&1 | tee -a $LOG
     printf "${YELLOW} Symbolic linking config files...\n"
     ln -s ~/Documents/git/fphchen/dotfiles/configs/alacritty ~/.config/ 2>&1 | tee -a $LOG
     ln -s ~/Documents/git/fphchen/dotfiles/configs/DankMaterialShell ~/.config/ 2>&1 | tee -a $LOG
